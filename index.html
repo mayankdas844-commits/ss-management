@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silver Sanskriti | Security Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --primary-light: #ede9fe;
+            --text-dark: #111827;
+            --text-gray: #6b7280;
+            --bg: #f8f9fb;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text-dark); line-height: 1.6; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+        
+        header { padding: 40px 0; text-align: center; }
+        .logo-ico { width: 80px; height: 80px; background: var(--primary); border-radius: 22px; display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 20px; box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3); }
+        h1 { font-size: 36px; font-weight: 900; margin-bottom: 10px; }
+        .subtitle { color: var(--text-gray); font-weight: 700; font-size: 18px; }
+
+        .hero { padding: 60px 0; text-align: center; background: linear-gradient(180deg, #fff, var(--bg)); }
+        .hero h2 { font-size: 42px; font-weight: 900; margin-bottom: 20px; }
+        .hero p { max-width: 600px; margin: 0 auto 40px; font-size: 18px; color: var(--text-gray); }
+
+        .app-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 60px; }
+        .app-card { background: #fff; padding: 40px; border-radius: 24px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.05); transition: transform 0.3s ease; }
+        .app-card:hover { transform: translateY(-10px); }
+        .app-card .icon { font-size: 50px; margin-bottom: 20px; display: block; }
+        .app-card h3 { font-size: 24px; font-weight: 800; margin-bottom: 15px; }
+        .app-card p { color: var(--text-gray); margin-bottom: 30px; font-weight: 600; }
+        .btn { display: inline-block; padding: 16px 40px; border-radius: 14px; font-weight: 800; text-decoration: none; transition: all 0.2s; font-size: 16px; }
+        .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 6px 20px rgba(124, 58, 237, 0.3); }
+        .btn-primary:hover { background: #6d28d9; transform: scale(1.05); }
+
+        .features { padding: 80px 0; }
+        .feat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
+        .feat-item { text-align: left; }
+        .feat-item h4 { font-size: 20px; font-weight: 800; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .feat-item p { color: var(--text-gray); font-weight: 600; }
+
+        footer { padding: 60px 0; text-align: center; border-top: 1px solid #eee; }
+        .footer-text { font-weight: 800; color: var(--text-gray); font-size: 14px; letter-spacing: 1px; }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 28px; }
+            .hero h2 { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="logo-ico">🏠</div>
+            <h1>Silver Sanskriti</h1>
+            <p class="subtitle">Security Management System</p>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2>Modern Security for Modern Living</h2>
+            <p>A smart, real-time visitor management ecosystem designed for the residents and security of Silver Sanskriti.</p>
+            
+            <div class="app-grid">
+                <div class="app-card">
+                    <span class="icon">🏘️</span>
+                    <h3>Resident Portal</h3>
+                    <p>Approve or deny visitors instantly from your phone. View visitor photos and details in real-time.</p>
+                    <a href="resident.html" class="btn btn-primary">Open Resident App →</a>
+                </div>
+                <div class="app-card">
+                    <span class="icon">🛡️</span>
+                    <h3>Guard Login</h3>
+                    <p>Central hub for logging entries, monitoring live status, and maintaining digital security records.</p>
+                    <a href="guard.html" class="btn btn-primary">Open Guard App →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <div class="feat-grid">
+                <div class="feat-item">
+                    <h4>🔔 Real-time Alerts</h4>
+                    <p>Get notified the moment a visitor arrives at the gate. No more unexpected doorbells.</p>
+                </div>
+                <div class="feat-item">
+                    <h4>📸 Photo Verification</h4>
+                    <p>See who is at the gate before you let them in. High-quality photo records for every entry.</p>
+                </div>
+                <div class="feat-item">
+                    <h4>📋 Digital Records</h4>
+                    <p>Complete historical log of all visitors, including time, purpose, and contact details.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p class="footer-text">POWERED BY SSOA MANAGEMENT</p>
+        </div>
+    </footer>
+
+</body>
+</html>

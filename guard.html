@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta name="theme-color" content="#7c3aed"/>
+<title>SS Guard</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:#f8f9fb;font-family:'Nunito',sans-serif;color:#111827;padding-bottom:80px}
+input,button,label{font-family:'Nunito',sans-serif}
+#hdr{background:#fff;border-bottom:1px solid #eee;padding:12px 16px;position:sticky;top:0;z-index:9;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 8px rgba(0,0,0,.06)}
+.logo{display:flex;align-items:center;gap:9px}
+.logo-ico{width:36px;height:36px;background:#7c3aed;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.logo-name{font-weight:900;font-size:14px;line-height:1}
+.logo-sub{font-size:9px;color:#9ca3af;font-weight:700;letter-spacing:.5px}
+#hdr-clk{font-family:'Share Tech Mono',monospace;font-size:17px;color:#111;letter-spacing:1.5px;text-align:right}
+#hdr-date{font-size:10px;color:#9ca3af;font-weight:600;text-align:right}
+#page{max-width:480px;margin:0 auto;padding:14px 13px}
+.cw{background:#1a1a2e;border-radius:16px;padding:16px 18px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
+#cw-time{font-family:'Share Tech Mono',monospace;font-size:36px;color:#fff;letter-spacing:2px;line-height:1}
+.cw-sec{font-size:21px;opacity:.4}
+.cw-ap{font-family:'Nunito',sans-serif;font-size:13px;color:#a78bfa;margin-left:5px;font-weight:700}
+#cw-date{font-size:11px;color:#6b7280;margin-top:4px}
+.card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 2px 12px rgba(0,0,0,.07);margin-bottom:12px}
+.card-title{font-weight:900;font-size:15px;margin-bottom:18px}
+.f{margin-bottom:14px}
+.fl{font-size:11px;font-weight:700;color:#374151;letter-spacing:.7px;text-transform:uppercase;display:block;margin-bottom:6px}
+.opt{color:#9ca3af;font-weight:500;text-transform:none;letter-spacing:0}
+.fi{width:100%;background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:9px;padding:11px 13px;color:#111;font-size:15px}
+.fi:focus{outline:none;border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,.1)}
+.fi.err{border-color:#ef4444}
+.fe{color:#ef4444;font-size:12px;margin-top:4px;font-weight:600;display:none}
+.fe.on{display:block}
+.pills{display:flex;flex-wrap:wrap;gap:7px}
+.pill{padding:6px 13px;border-radius:20px;border:1.5px solid #e5e7eb;background:#f9fafb;color:#6b7280;font-size:13px;font-weight:700;cursor:pointer}
+.pill.on{border-color:#7c3aed;background:#ede9fe;color:#6d28d9}
+.btn{width:100%;padding:14px;background:#7c3aed;border:none;border-radius:11px;cursor:pointer;font-weight:800;font-size:15px;color:#fff;margin-top:4px}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.5}
+.photo-row{display:flex;gap:9px}
+.plbl{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;padding:14px 6px;background:#f9fafb;border:1.5px dashed #d1d5db;border-radius:11px;cursor:pointer;font-size:12px;font-weight:700;color:#374151}
+.plbl .pi{font-size:20px}
+.pprev{border-radius:12px;overflow:hidden;border:2px solid #10b981;position:relative}
+.pprev img{width:100%;display:block;max-height:180px;object-fit:cover}
+.pprev-ov{position:absolute;inset:0;background:linear-gradient(transparent 55%,rgba(0,0,0,.5))}
+.pprev-ok{position:absolute;top:7px;left:9px;background:rgba(16,185,129,.9);border-radius:5px;padding:2px 8px;font-size:10px;color:#fff;font-weight:700}
+.pprev-acts{position:absolute;bottom:8px;left:0;right:0;display:flex;justify-content:center;gap:7px}
+.pa{background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:20px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;display:inline-block}
+.toast{background:#f0fdf4;border:1.5px solid #86efac;border-radius:12px;padding:12px 14px;margin-bottom:14px;display:none;align-items:center;gap:10px}
+.toast.on{display:flex}
+.t-ico{width:42px;height:42px;border-radius:9px;background:#bbf7d0;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;overflow:hidden}
+.t-ico img{width:100%;height:100%;object-fit:cover}
+.t-title{font-weight:800;color:#15803d;font-size:13px}
+.t-sub{font-size:12px;color:#16a34a}
+.sc{border-radius:12px;padding:13px 14px;margin-bottom:9px;display:flex;align-items:center;gap:11px}
+.sc.pending{background:#fefce8;border:1.5px solid #fde68a}
+.sc.approved{background:#f0fdf4;border:1.5px solid #86efac}
+.sc.denied{background:#fff1f2;border:1.5px solid #fecdd3}
+.sc-av{width:42px;height:42px;border-radius:9px;overflow:hidden;flex-shrink:0;background:#ede9fe;display:flex;align-items:center;justify-content:center;font-size:18px}
+.sc-av img{width:100%;height:100%;object-fit:cover}
+.sc-name{font-weight:800;font-size:14px}
+.sc-info{font-size:11px;color:#6b7280;margin-top:2px}
+.badge{display:inline-block;margin-top:5px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:800}
+.badge.pending{background:#fef9c3;color:#854d0e}
+.badge.approved{background:#dcfce7;color:#166534}
+.badge.denied{background:#ffe4e6;color:#9f1239}
+.srch-w{position:relative;margin-bottom:12px}
+.srch-w span{position:absolute;left:12px;top:50%;transform:translateY(-50%)}
+.srch{width:100%;background:#fff;border:1.5px solid #e5e7eb;border-radius:9px;padding:11px 13px 11px 38px;color:#111;font-size:15px}
+.srch:focus{outline:none;border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,.1)}
+.ec{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:9px}
+.ec-ph{width:100%;max-height:200px;object-fit:cover;display:block}
+.ec-body{padding:12px 14px}
+.ec-row{display:flex;align-items:center;gap:10px}
+.ec-av{width:42px;height:42px;border-radius:10px;overflow:hidden;flex-shrink:0;background:#ede9fe;display:flex;align-items:center;justify-content:center;font-size:18px}
+.ec-av.hp{border:2px solid #7c3aed;cursor:pointer}
+.ec-av img{width:100%;height:100%;object-fit:cover}
+.ec-name{font-weight:800;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ec-time{font-size:11px;color:#9ca3af;margin-top:1px}
+.ec-del{background:none;border:none;color:#d1d5db;font-size:20px;cursor:pointer;margin-left:auto}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+.chip{display:inline-flex;align-items:center;gap:3px;padding:4px 10px;border-radius:20px;background:#f3f4f6;color:#374151;font-size:11px;font-weight:600}
+.chip.p{background:#ede9fe;color:#6d28d9;font-weight:700}
+.chip.cl{cursor:pointer}
+.empty{text-align:center;color:#d1d5db;padding:50px 0}
+.empty div:first-child{font-size:46px;margin-bottom:10px}
+.count{text-align:center;font-size:11px;color:#c4c7cc;font-weight:700;margin-top:14px}
+.bc-dig{font-family:'Share Tech Mono',monospace;font-size:44px;color:#111;letter-spacing:3px;text-align:center;line-height:1}
+.bc-dig .s{font-size:26px;color:#9ca3af}
+.bc-dig .ap{font-family:'Nunito',sans-serif;font-size:17px;color:#7c3aed;margin-left:7px;font-weight:800}
+.bc-date{font-size:12px;color:#9ca3af;font-weight:600;margin-top:8px;text-align:center}
+#bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #f0f0f5;display:flex;z-index:10;box-shadow:0 -3px 16px rgba(0,0,0,.07)}
+.nb{flex:1;padding:10px 0 7px;border:none;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font-family:'Nunito',sans-serif}
+.nb span:first-child{font-size:20px}
+.nb-l{font-size:9px;font-weight:800;color:#9ca3af}
+.nb.on .nb-l{color:#7c3aed}
+.nb-dot{width:20px;height:3px;background:#7c3aed;border-radius:2px;display:none}
+.nb.on .nb-dot{display:block}
+</style>
+</head>
+<body>
+<div id="hdr">
+  <div class="logo">
+    <div class="logo-ico">🏢</div>
+    <div><div class="logo-name">Silver Sanskriti</div><div class="logo-sub">GUARD APP</div></div>
+  </div>
+  <div><div id="hdr-clk"></div><div id="hdr-date"></div></div>
+</div>
+<div id="page"></div>
+<div id="bnav">
+  <button class="nb on" id="nb-log" onclick="go('log')"><span>✏️</span><span class="nb-l">Log Entry</span><div class="nb-dot"></div></button>
+  <button class="nb" id="nb-status" onclick="go('status')"><span>🔔</span><span class="nb-l" id="nb-st-l">Live Status</span><div class="nb-dot"></div></button>
+  <button class="nb" id="nb-records" onclick="go('records')"><span>📋</span><span class="nb-l" id="nb-rec-l">Records</span><div class="nb-dot"></div></button>
+  <button class="nb" id="nb-clock" onclick="go('clock')"><span>🕐</span><span class="nb-l">Clock</span><div class="nb-dot"></div></button>
+</div>
+<script>
+// Firebase REST — no SDK needed
+const DB = 'https://ssoa-visitor-management-b49c8-default-rtdb.asia-southeast1.firebasedatabase.app';
+
+async function dbWrite(path, data) {
+  try {
+    await fetch(DB + path + '.json', {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    });
+  } catch(e) { console.error('write error', e); }
+}
+
+async function dbPatch(path, data) {
+  try {
+    await fetch(DB + path + '.json', {
+      method: 'PATCH',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    });
+  } catch(e) { console.error('patch error', e); }
+}
+
+// Real-time listener via Server-Sent Events
+var liveData = {};
+function startSSE() {
+  var es = new EventSource(DB + '/requests.json');
+  es.addEventListener('put', function(e) {
+    var msg = JSON.parse(e.data);
+    if (msg.path === '/') {
+      liveData = msg.data || {};
+    } else {
+      var id = msg.path.replace(/^\//, '').split('/')[0];
+      if (msg.data === null) delete liveData[id];
+      else liveData[id] = msg.data;
+    }
+    updateStatusBadge();
+    if (tab === 'status') renderStatus();
+  });
+  es.addEventListener('patch', function(e) {
+    var msg = JSON.parse(e.data);
+    var id = msg.path.replace(/^\//, '').split('/')[0];
+    if (liveData[id]) Object.assign(liveData[id], msg.data);
+    else liveData[id] = msg.data;
+    updateStatusBadge();
+    if (tab === 'status') renderStatus();
+  });
+  es.onerror = function() { setTimeout(startSSE, 3000); es.close(); };
+}
+startSSE();
+
+function updateStatusBadge() {
+  var n = Object.values(liveData).filter(function(r){ return r.status==='pending'; }).length;
+  var l = document.getElementById('nb-st-l');
+  if (l) l.textContent = 'Live Status' + (n ? ' (' + n + ')' : '');
+}
+
+// State
+var SK = 'ss-guard-v3';
+var entries = [];
+try { entries = JSON.parse(localStorage.getItem(SK) || '[]'); } catch(e) {}
+var tab = 'log', photo = null, expandId = null, searchQ = '', toastTmr = null;
+var form = {name:'', phone:'', flat:'', aadhar:'', purpose:'Visit'};
+var errs = {name:'', phone:'', flat:'', aadhar:''};
+var PURPOSES = ['Visit','Delivery','Service','Interview','Vendor','Other'];
+
+function save() { localStorage.setItem(SK, JSON.stringify(entries)); }
+
+// Clock
+function tp(d) {
+  return {
+    h: String(d.getHours()%12||12).padStart(2,'0'),
+    m: String(d.getMinutes()).padStart(2,'0'),
+    s: String(d.getSeconds()).padStart(2,'0'),
+    ap: d.getHours()>=12?'PM':'AM'
+  };
+}
+function tick() {
+  var d = new Date(), t = tp(d);
+  var hc = document.getElementById('hdr-clk');
+  if (hc) hc.innerHTML = t.h+':'+t.m+'<span style="font-size:11px;color:#9ca3af">:'+t.s+'</span><span style="font-family:Nunito;font-size:10px;color:#7c3aed;margin-left:3px;font-weight:700">'+t.ap+'</span>';
+  var hd = document.getElementById('hdr-date');
+  if (hd) hd.textContent = d.toLocaleDateString('en-IN',{day:'2-digit',month:'short'});
+  var ct = document.getElementById('cw-time');
+  if (ct) ct.innerHTML = t.h+':'+t.m+'<span class="cw-sec">:'+t.s+'</span><span class="cw-ap">'+t.ap+'</span>';
+  var cd = document.getElementById('cw-date');
+  if (cd) cd.textContent = d.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  var svg = document.getElementById('cw-svg');
+  if (svg) {
+    svg.querySelector('.sa').setAttribute('stroke-dasharray', (d.getSeconds()/60*144.5)+' 144.5');
+    svg.querySelector('.st').textContent = String(d.getSeconds()).padStart(2,'0');
+  }
+  var bd = document.getElementById('bc-d');
+  if (bd) bd.innerHTML = t.h+':'+t.m+'<span class="s">:'+t.s+'</span><span class="ap">'+t.ap+'</span>';
+  var bdt = document.getElementById('bc-dt');
+  if (bdt) bdt.textContent = d.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  updateAnalog(d);
+}
+function updateAnalog(d) {
+  var sv = document.getElementById('bc-svg'); if (!sv) return;
+  var cx=120,cy=120,r=100;
+  function ang(v,mx){return((v/mx)*360-90)*Math.PI/180;}
+  function pt(a,l){return[cx+Math.cos(a)*l,cy+Math.sin(a)*l];}
+  var hh=pt(ang(d.getHours()%12*60+d.getMinutes(),720),55);
+  var mh=pt(ang(d.getMinutes()*60+d.getSeconds(),3600),75);
+  var sh=pt(ang(d.getSeconds(),60),88);
+  sv.querySelector('.hh').setAttribute('x2',hh[0]); sv.querySelector('.hh').setAttribute('y2',hh[1]);
+  sv.querySelector('.mh').setAttribute('x2',mh[0]); sv.querySelector('.mh').setAttribute('y2',mh[1]);
+  sv.querySelector('.sh').setAttribute('x2',sh[0]); sv.querySelector('.sh').setAttribute('y2',sh[1]);
+  sv.querySelector('.sw').setAttribute('stroke-dasharray',(d.getSeconds()/60*2*Math.PI*r)+' '+(2*Math.PI*r));
+}
+setInterval(tick, 1000); tick();
+
+// Photo
+function compress(url, cb) {
+  var img = new Image();
+  img.onload = function() {
+    var c = document.createElement('canvas'), MAX=480, w=img.width, h=img.height;
+    if (w>MAX){h=Math.round(h*MAX/w);w=MAX;}
+    c.width=w; c.height=h; c.getContext('2d').drawImage(img,0,0,w,h);
+    cb(c.toDataURL('image/jpeg',0.6));
+  };
+  img.src = url;
+}
+function readFile(file) {
+  if (!file) return;
+  var r = new FileReader();
+  r.onload = function(e){ compress(e.target.result, function(c){ photo=c; renderPhoto(); }); };
+  r.readAsDataURL(file);
+}
+function clearPhoto() { photo=null; renderPhoto(); }
+function renderPhoto() {
+  var w = document.getElementById('photo-wrap'); if (!w) return;
+  w.innerHTML = photo
+    ? '<div class="pprev"><img src="'+photo+'"><div class="pprev-ov"></div><div class="pprev-ok">✓ Ready</div><div class="pprev-acts"><label class="pa">📷 Retake<input type="file" accept="image/*" capture="environment" style="display:none" onchange="readFile(this.files[0])"></label><label class="pa">🖼 Gallery<input type="file" accept="image/*" style="display:none" onchange="readFile(this.files[0])"></label><span class="pa" onclick="clearPhoto()">✕</span></div></div>'
+    : '<div class="photo-row"><label class="plbl"><span class="pi">📷</span>Camera<input type="file" accept="image/*" capture="environment" style="display:none" onchange="readFile(this.files[0])"></label><label class="plbl"><span class="pi">🖼</span>Gallery<input type="file" accept="image/*" style="display:none" onchange="readFile(this.files[0])"></label></div>';
+}
+
+// Form
+function valid() {
+  errs.name  = form.name.trim()    ? '' : 'Name required';
+  errs.phone = form.phone.length>=10 ? '' : 'Need 10-digit number';
+  errs.flat  = form.flat.trim()    ? '' : 'Flat required';
+  errs.aadhar= (!form.aadhar||form.aadhar.replace(/\s/g,'').length===12) ? '' : 'Must be 12 digits';
+  return !errs.name&&!errs.phone&&!errs.flat&&!errs.aadhar;
+}
+function showErrs() {
+  ['name','phone','flat','aadhar'].forEach(function(f){
+    var i=document.getElementById('fi-'+f), e=document.getElementById('fe-'+f);
+    if(i) i.classList.toggle('err',!!errs[f]);
+    if(e){e.textContent=errs[f]; e.classList.toggle('on',!!errs[f]);}
+  });
+}
+function clrErr(f) {
+  errs[f]='';
+  var i=document.getElementById('fi-'+f), e=document.getElementById('fe-'+f);
+  if(i) i.classList.remove('err');
+  if(e){e.textContent=''; e.classList.remove('on');}
+}
+function setPurpose(p) {
+  form.purpose=p;
+  document.querySelectorAll('.pill').forEach(function(b){ b.classList.toggle('on', b.dataset.p===p); });
+}
+
+async function submit() {
+  ['name','phone','flat','aadhar'].forEach(function(f){
+    var el=document.getElementById('fi-'+f); if(el) form[f]=el.value;
+  });
+  if (!valid()) { showErrs(); return; }
+  var btn = document.getElementById('sub-btn');
+  if (btn) { btn.disabled=true; btn.textContent='Sending…'; }
+  var id = 'v'+Date.now();
+  var entry = {
+    id:id, name:form.name.trim(), phone:form.phone.trim(),
+    flat:form.flat.trim().toUpperCase(), aadhar:form.aadhar.trim(),
+    purpose:form.purpose, photo:photo||null, ts:Date.now(), status:'pending'
+  };
+  entries.unshift(entry); save();
+  var recL = document.getElementById('nb-rec-l');
+  if (recL) recL.textContent = 'Records ('+entries.length+')';
+  await dbWrite('/requests/'+id, entry);
+  form.name=''; form.phone=''; form.flat=''; form.aadhar=''; form.purpose='Visit';
+  photo=null; ['name','phone','flat','aadhar'].forEach(function(k){errs[k]='';});
+  render(); showToast(entry);
+  setTimeout(function(){ go('status'); }, 1600);
+}
+
+function showToast(e) {
+  if (toastTmr) clearTimeout(toastTmr);
+  var t = document.getElementById('toast'); if (!t) return;
+  t.querySelector('.t-ico').innerHTML = e.photo ? '<img src="'+e.photo+'">' : '✅';
+  t.querySelector('.t-title').textContent = 'Logged! Waiting for resident…';
+  t.querySelector('.t-sub').textContent = e.name+' → Flat '+e.flat;
+  t.classList.add('on');
+  toastTmr = setTimeout(function(){ t.classList.remove('on'); }, 4000);
+}
+
+// Nav
+function go(t) {
+  tab=t;
+  document.querySelectorAll('.nb').forEach(function(b){ b.classList.remove('on'); });
+  document.getElementById('nb-'+t).classList.add('on');
+  render();
+}
+
+// Render
+function render() {
+  if (tab==='log') renderLog();
+  else if (tab==='status') renderStatus();
+  else if (tab==='records') renderRecords();
+  else renderClock();
+}
+
+function cwHTML() {
+  var d=new Date(), t=tp(d), p=d.getSeconds()/60;
+  return '<div class="cw"><div><div id="cw-time">'+t.h+':'+t.m+'<span class="cw-sec">:'+t.s+'</span><span class="cw-ap">'+t.ap+'</span></div><div id="cw-date">'+d.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'})+'</div></div>'
+    +'<svg id="cw-svg" width="52" height="52" viewBox="0 0 54 54"><circle cx="27" cy="27" r="23" fill="none" stroke="#2d2d44" stroke-width="4"/><circle class="sa" cx="27" cy="27" r="23" fill="none" stroke="#7c3aed" stroke-width="4" stroke-dasharray="'+(p*144.5)+' 144.5" stroke-linecap="round" transform="rotate(-90 27 27)"/><text class="st" x="27" y="32" text-anchor="middle" fill="#a78bfa" style="font-family:monospace;font-size:13px">'+String(d.getSeconds()).padStart(2,'0')+'</text></svg></div>';
+}
+
+function renderLog() {
+  document.getElementById('page').innerHTML =
+    cwHTML()
+    +'<div id="toast" class="toast"><div class="t-ico"></div><div><div class="t-title"></div><div class="t-sub"></div></div></div>'
+    +'<div class="card"><div class="card-title">New Visitor Entry</div>'
+    +'<div class="f"><span class="fl">Photo <span class="opt">· optional</span></span><div id="photo-wrap"></div></div>'
+    +'<div class="f"><label class="fl">Full Name</label><input id="fi-name" class="fi'+(errs.name?' err':'')+'" type="text" placeholder="Visitor name" value="'+esc(form.name)+'" oninput="form.name=this.value;clrErr(\'name\')"><div id="fe-name" class="fe'+(errs.name?' on':'')+'">'+errs.name+'</div></div>'
+    +'<div class="f"><label class="fl">Phone</label><input id="fi-phone" class="fi'+(errs.phone?' err':'')+'" type="tel" inputmode="numeric" placeholder="10-digit number" value="'+esc(form.phone)+'" oninput="form.phone=this.value.replace(/\\D/g,\'\').slice(0,10);this.value=form.phone;clrErr(\'phone\')"><div id="fe-phone" class="fe'+(errs.phone?' on':'')+'">'+errs.phone+'</div></div>'
+    +'<div class="f"><label class="fl">Visiting Flat</label><input id="fi-flat" class="fi'+(errs.flat?' err':'')+'" type="text" placeholder="e.g. A-304" value="'+esc(form.flat)+'" oninput="form.flat=this.value;clrErr(\'flat\')"><div id="fe-flat" class="fe'+(errs.flat?' on':'')+'">'+errs.flat+'</div></div>'
+    +'<div class="f"><label class="fl">Aadhar <span class="opt">· optional</span></label><input id="fi-aadhar" class="fi'+(errs.aadhar?' err':'')+'" type="text" inputmode="numeric" placeholder="XXXX XXXX XXXX" value="'+esc(form.aadhar)+'" oninput="form.aadhar=fmtA(this.value);this.value=form.aadhar;clrErr(\'aadhar\')"><div id="fe-aadhar" class="fe'+(errs.aadhar?' on':'')+'">'+errs.aadhar+'</div></div>'
+    +'<div class="f"><span class="fl">Purpose</span><div class="pills">'+PURPOSES.map(function(p){return'<button class="pill'+(form.purpose===p?' on':'')+'" data-p="'+p+'" onclick="setPurpose(\''+p+'\')">'+p+'</button>';}).join('')+'</div></div>'
+    +'<button id="sub-btn" class="btn" onclick="submit()">Send to Resident for Approval</button></div>';
+  renderPhoto();
+}
+
+function renderStatus() {
+  var list = Object.values(liveData).sort(function(a,b){return b.ts-a.ts;});
+  var h = '<div style="font-weight:900;font-size:15px;margin-bottom:14px">Live Visitor Status</div>';
+  if (!list.length) { h+='<div class="empty"><div>🔔</div><div>No visitors today</div></div>'; }
+  else list.forEach(function(r){
+    h+='<div class="sc '+r.status+'"><div class="sc-av">'+(r.photo?'<img src="'+r.photo+'">':'👤')+'</div>'
+      +'<div><div class="sc-name">'+esc(r.name)+'</div><div class="sc-info">Flat '+esc(r.flat)+' · '+esc(r.purpose)+'</div>'
+      +'<span class="badge '+r.status+'">'+(r.status==='approved'?'✅ Approved':r.status==='denied'?'❌ Denied':'⏳ Waiting…')+'</span></div></div>';
+  });
+  document.getElementById('page').innerHTML = h;
+}
+
+function renderRecords() {
+  var fil = entries.filter(function(e){
+    return ['name','flat','phone','aadhar'].some(function(k){ return e[k]&&e[k].toLowerCase().includes(searchQ.toLowerCase()); });
+  });
+  var h = '<div class="srch-w"><span>🔍</span><input class="srch" type="search" placeholder="Search…" value="'+esc(searchQ)+'" oninput="searchQ=this.value;renderRecords()" id="si"></div>';
+  if (!fil.length) { h+='<div class="empty"><div>'+(entries.length?'🔍':'📋')+'</div><div>'+(entries.length?'No results':'No entries yet')+'</div></div>'; }
+  else {
+    fil.forEach(function(e){
+      var ex = expandId===e.id;
+      h+='<div class="ec">'+(ex&&e.photo?'<img class="ec-ph" src="'+e.photo+'">':'')
+        +'<div class="ec-body"><div class="ec-row">'
+        +'<div class="ec-av'+(e.photo?' hp':'')+'" onclick="'+(e.photo?'expandId=expandId===\''+e.id+'\'?null:\''+e.id+'\';renderRecords()':'')+'">'+( e.photo?'<img src="'+e.photo+'">':'👤')+'</div>'
+        +'<div style="flex:1;min-width:0"><div class="ec-name">'+esc(e.name)+'</div><div class="ec-time">'+fmtDT(e.id)+'</div></div>'
+        +'<button class="ec-del" onclick="entries=entries.filter(function(x){return x.id!==\''+e.id+'\'});save();if(expandId===\''+e.id+'\')expandId=null;renderRecords()">×</button></div>'
+        +'<div class="chips"><span class="chip">🏠 '+esc(e.flat)+'</span><span class="chip">📞 '+esc(e.phone)+'</span>'
+        +(e.aadhar?'<span class="chip">🪪 '+esc(e.aadhar)+'</span>':'')
+        +'<span class="chip p">'+esc(e.purpose)+'</span>'
+        +(e.photo?'<span class="chip cl" onclick="expandId=expandId===\''+e.id+'\'?null:\''+e.id+'\';renderRecords()">📷 '+(ex?'Hide':'Photo')+'</span>':'')
+        +'</div></div></div>';
+    });
+    h+='<div class="count">'+fil.length+' of '+entries.length+'</div>';
+  }
+  document.getElementById('page').innerHTML = h;
+}
+
+function renderClock() {
+  var d=new Date(), t=tp(d), cx=120,cy=120,r=100;
+  function ang(v,mx){return((v/mx)*360-90)*Math.PI/180;}
+  function pt(a,l){return[cx+Math.cos(a)*l,cy+Math.sin(a)*l];}
+  var hh=pt(ang(d.getHours()%12*60+d.getMinutes(),720),55);
+  var mh=pt(ang(d.getMinutes()*60+d.getSeconds(),3600),75);
+  var sh=pt(ang(d.getSeconds(),60),88);
+  var tks='',ns='';
+  for(var i=0;i<60;i++){var a=(i/60)*Math.PI*2-Math.PI/2,mj=i%5===0,in2=mj?88:93;tks+='<line x1="'+(cx+Math.cos(a)*in2)+'" y1="'+(cy+Math.sin(a)*in2)+'" x2="'+(cx+Math.cos(a)*98)+'" y2="'+(cy+Math.sin(a)*98)+'" stroke="'+(mj?'#d1d5db':'#e5e7eb')+'" stroke-width="'+(mj?2:1)+'"/>';}
+  for(var i=0;i<12;i++){var a=(i/12)*Math.PI*2-Math.PI/2;ns+='<text x="'+(cx+Math.cos(a)*82)+'" y="'+(cy+Math.sin(a)*82+5)+'" text-anchor="middle" fill="#6b7280" style="font-size:12px;font-weight:700">'+(i===0?12:i)+'</text>';}
+  document.getElementById('page').innerHTML =
+    '<div class="card"><div class="card-title">Guard Station Clock</div>'
+    +'<svg id="bc-svg" width="240" height="240" viewBox="0 0 240 240" style="display:block;margin:0 auto 18px">'
+    +'<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="#f9fafb" stroke="#e5e7eb" stroke-width="2"/>'+tks+ns
+    +'<circle class="sw" cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="none" stroke="#7c3aed" stroke-width="3" stroke-dasharray="'+(d.getSeconds()/60*2*Math.PI*r)+' '+(2*Math.PI*r)+'" stroke-linecap="round" transform="rotate(-90 '+cx+' '+cy+')" opacity="0.15"/>'
+    +'<line class="hh" x1="'+cx+'" y1="'+cy+'" x2="'+hh[0]+'" y2="'+hh[1]+'" stroke="#111" stroke-width="5" stroke-linecap="round"/>'
+    +'<line class="mh" x1="'+cx+'" y1="'+cy+'" x2="'+mh[0]+'" y2="'+mh[1]+'" stroke="#374151" stroke-width="3.5" stroke-linecap="round"/>'
+    +'<line class="sh" x1="'+cx+'" y1="'+cy+'" x2="'+sh[0]+'" y2="'+sh[1]+'" stroke="#7c3aed" stroke-width="2" stroke-linecap="round"/>'
+    +'<circle cx="'+cx+'" cy="'+cy+'" r="5" fill="#7c3aed"/></svg>'
+    +'<div class="bc-dig" id="bc-d">'+t.h+':'+t.m+'<span class="s">:'+t.s+'</span><span class="ap">'+t.ap+'</span></div>'
+    +'<div class="bc-date" id="bc-dt">'+d.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'})+'</div></div>';
+}
+
+function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function fmtA(v){var d=v.replace(/\D/g,'').slice(0,12);return d.replace(/(\d{4})(\d{0,4})(\d{0,4})/,function(_,a,b,c){return[a,b,c].filter(Boolean).join(' ');});}
+function fmtDT(ts){return new Date(+ts||ts).toLocaleString('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',hour12:true});}
+
+var recL=document.getElementById('nb-rec-l');
+if(recL) recL.textContent='Records'+(entries.length?' ('+entries.length+')':'');
+render();
+</script>
+</body>
+</html>

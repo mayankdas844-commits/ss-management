@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta name="theme-color" content="#7c3aed"/>
+<title>SS Resident</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:#f8f9fb;font-family:'Nunito',sans-serif;color:#111827;min-height:100vh}
+input,button{font-family:'Nunito',sans-serif}
+
+/* Login */
+#login{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:linear-gradient(150deg,#f5f3ff,#ede9fe 40%,#fff)}
+.l-ico{width:68px;height:68px;background:#7c3aed;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:34px;margin-bottom:18px;box-shadow:0 6px 24px rgba(124,58,237,.3)}
+.l-title{font-weight:900;font-size:24px;margin-bottom:4px;text-align:center}
+.l-sub{font-size:13px;color:#9ca3af;font-weight:700;margin-bottom:32px;text-align:center}
+.l-card{background:#fff;border-radius:18px;padding:26px 22px;width:100%;max-width:340px;box-shadow:0 6px 32px rgba(0,0,0,.1)}
+.l-lbl{font-size:11px;font-weight:700;color:#374151;letter-spacing:.7px;text-transform:uppercase;display:block;margin-bottom:7px}
+.l-inp{width:100%;background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:11px;padding:13px 15px;color:#111;font-size:17px;font-weight:800;text-align:center;letter-spacing:2px;outline:none}
+.l-inp:focus{border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,.1)}
+.l-hint{font-size:12px;color:#9ca3af;text-align:center;margin:7px 0 18px;font-weight:600}
+.l-btn{width:100%;padding:15px;background:#7c3aed;border:none;border-radius:11px;cursor:pointer;font-weight:800;font-size:15px;color:#fff}
+.l-err{color:#ef4444;font-size:12px;font-weight:700;text-align:center;margin-top:9px;display:none}
+.l-err.on{display:block}
+
+/* App */
+#app{display:none;padding-bottom:80px}
+#hdr{background:#fff;border-bottom:1px solid #eee;padding:12px 16px;position:sticky;top:0;z-index:9;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 8px rgba(0,0,0,.06)}
+.h-logo{display:flex;align-items:center;gap:9px}
+.h-ico{width:36px;height:36px;background:#7c3aed;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.h-name{font-weight:900;font-size:14px;line-height:1}
+.h-flat{font-size:11px;color:#7c3aed;font-weight:800;background:#ede9fe;padding:2px 7px;border-radius:5px;margin-top:2px;display:inline-block}
+.h-out{background:none;border:1.5px solid #e5e7eb;border-radius:7px;padding:5px 11px;font-size:11px;font-weight:700;color:#9ca3af;cursor:pointer}
+
+#page{max-width:480px;margin:0 auto;padding:14px 13px}
+
+/* Visitor card */
+.vc{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.1);margin-bottom:14px;animation:up .3s ease}
+.vc-photo{width:100%;max-height:260px;object-fit:cover;display:block}
+.vc-nophoto{width:100%;height:130px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;font-size:60px}
+.vc-body{padding:16px}
+.vc-name{font-weight:900;font-size:20px}
+.vc-time{font-size:12px;color:#9ca3af;font-weight:600;margin-top:3px}
+.vc-chips{display:flex;flex-wrap:wrap;gap:6px;margin:11px 0 16px}
+.chip{display:inline-flex;align-items:center;gap:3px;padding:5px 11px;border-radius:20px;background:#f3f4f6;color:#374151;font-size:12px;font-weight:700}
+.chip.p{background:#ede9fe;color:#6d28d9}
+.vc-btns{display:flex;gap:9px}
+.btn-yes{flex:1;padding:15px;background:#16a34a;border:none;border-radius:13px;cursor:pointer;font-weight:900;font-size:16px;color:#fff}
+.btn-yes:active{transform:scale(.97)}
+.btn-no{flex:1;padding:15px;background:#fff;border:2px solid #fca5a5;border-radius:13px;cursor:pointer;font-weight:900;font-size:16px;color:#ef4444}
+.btn-no:active{transform:scale(.97)}
+.decided-bar{padding:11px 16px;font-size:13px;font-weight:800;display:flex;align-items:center;gap:7px}
+.bar-yes{background:#f0fdf4;color:#15803d}
+.bar-no{background:#fff1f2;color:#be123c}
+
+/* History */
+.hc{background:#fff;border-radius:13px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:9px;display:flex;align-items:center;gap:11px;padding:12px 13px}
+.hc-av{width:42px;height:42px;border-radius:9px;overflow:hidden;flex-shrink:0;background:#ede9fe;display:flex;align-items:center;justify-content:center;font-size:18px}
+.hc-av img{width:100%;height:100%;object-fit:cover}
+.hc-name{font-weight:800;font-size:14px}
+.hc-meta{font-size:11px;color:#9ca3af;margin-top:2px}
+.hc-badge{margin-left:auto;flex-shrink:0;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:800}
+.b-yes{background:#dcfce7;color:#166534}
+.b-no{background:#ffe4e6;color:#9f1239}
+.b-wait{background:#fef9c3;color:#854d0e}
+
+.empty{text-align:center;color:#d1d5db;padding:50px 0}
+.empty div:first-child{font-size:48px;margin-bottom:10px}
+.empty div:last-child{font-size:14px;font-weight:700}
+.empty p{font-size:13px;margin-top:5px;color:#d1d5db}
+.conn-pill{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:13px;background:#dcfce7;color:#166534}
+.conn-dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+.sec-lbl{font-size:10px;font-weight:700;color:#9ca3af;letter-spacing:.8px;text-transform:uppercase;margin:14px 0 9px}
+
+#bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #f0f0f5;display:flex;z-index:10;box-shadow:0 -3px 16px rgba(0,0,0,.07)}
+.nb{flex:1;padding:10px 0 7px;border:none;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font-family:'Nunito',sans-serif;position:relative}
+.nb span:first-child{font-size:20px}
+.nb-l{font-size:9px;font-weight:800;color:#9ca3af}
+.nb.on .nb-l{color:#7c3aed}
+.nb-dot{width:20px;height:3px;background:#7c3aed;border-radius:2px;display:none}
+.nb.on .nb-dot{display:block}
+.bdg{position:absolute;top:6px;right:18px;background:#ef4444;color:#fff;font-size:9px;font-weight:900;border-radius:9px;padding:1px 5px;display:none}
+.bdg.on{display:block}
+
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<div id="login">
+  <div class="l-ico">🏠</div>
+  <div class="l-title">Silver Sanskriti</div>
+  <div class="l-sub">Resident Visitor App</div>
+  <div class="l-card">
+    <label class="l-lbl">Your Flat Number</label>
+    <input id="flat-in" class="l-inp" type="text" placeholder="e.g. A-304"
+      oninput="this.value=this.value.toUpperCase()"
+      onkeydown="if(event.key==='Enter')login()"/>
+    <div class="l-hint">Enter your flat number to continue</div>
+    <button class="l-btn" onclick="login()">Continue →</button>
+    <div id="l-err" class="l-err">Please enter your flat number</div>
+  </div>
+</div>
+
+<div id="app">
+  <div id="hdr">
+    <div class="h-logo">
+      <div class="h-ico">🏠</div>
+      <div>
+        <div class="h-name">Silver Sanskriti</div>
+        <div class="h-flat" id="h-flat-lbl"></div>
+      </div>
+    </div>
+    <button class="h-out" onclick="logout()">Change Flat</button>
+  </div>
+  <div id="page"></div>
+  <div id="bnav">
+    <button class="nb on" id="nb-incoming" onclick="go('incoming')">
+      <span>🔔</span>
+      <div class="bdg" id="bdg"></div>
+      <span class="nb-l" id="nb-in-l">Incoming</span>
+      <div class="nb-dot"></div>
+    </button>
+    <button class="nb" id="nb-history" onclick="go('history')">
+      <span>📋</span>
+      <span class="nb-l">History</span>
+      <div class="nb-dot"></div>
+    </button>
+  </div>
+</div>
+
+<script>
+// Firebase REST — no SDK
+var DB = 'https://ssoa-visitor-management-b49c8-default-rtdb.asia-southeast1.firebasedatabase.app';
+
+async function dbPatch(path, data) {
+  try {
+    await fetch(DB + path + '.json', {
+      method: 'PATCH',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    });
+  } catch(e) { console.error('patch error', e); }
+}
+
+var myFlat = localStorage.getItem('ss-flat') || '';
+var tab = 'incoming';
+var data = {};
+var es = null;
+
+function login() {
+  var v = document.getElementById('flat-in').value.trim().toUpperCase();
+  if (!v) { document.getElementById('l-err').classList.add('on'); return; }
+  myFlat = v;
+  localStorage.setItem('ss-flat', myFlat);
+  startApp();
+}
+
+function logout() {
+  if (es) { es.close(); es = null; }
+  myFlat = ''; data = {};
+  localStorage.removeItem('ss-flat');
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login').style.display = 'flex';
+  document.getElementById('flat-in').value = '';
+}
+
+function startApp() {
+  document.getElementById('login').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('h-flat-lbl').textContent = 'Flat ' + myFlat;
+  listen();
+  render();
+}
+
+if (myFlat) startApp();
+
+function listen() {
+  es = new EventSource(DB + '/requests.json');
+  es.addEventListener('put', function(e) {
+    var msg = JSON.parse(e.data);
+    if (msg.path === '/') {
+      // initial load — filter to our flat
+      data = {};
+      var all = msg.data || {};
+      Object.keys(all).forEach(function(id) {
+        var r = all[id];
+        if (r && r.flat && r.flat.toUpperCase() === myFlat) data[id] = r;
+      });
+    } else {
+      var id = msg.path.replace(/^\//, '').split('/')[0];
+      if (msg.data === null) {
+        delete data[id];
+      } else {
+        // only keep if it's for our flat
+        if (msg.data.flat && msg.data.flat.toUpperCase() === myFlat) {
+          data[id] = msg.data;
+        }
+      }
+    }
+    updateBadge();
+    render();
+  });
+  es.addEventListener('patch', function(e) {
+    var msg = JSON.parse(e.data);
+    var id = msg.path.replace(/^\//, '').split('/')[0];
+    if (data[id]) Object.assign(data[id], msg.data);
+    updateBadge();
+    render();
+  });
+  es.onerror = function() {
+    setTimeout(function() { if (es) { es.close(); } listen(); }, 3000);
+  };
+  // Notification permission
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission();
+  }
+}
+
+function updateBadge() {
+  var n = Object.values(data).filter(function(r){ return r.status === 'pending'; }).length;
+  var b = document.getElementById('bdg');
+  var l = document.getElementById('nb-in-l');
+  if (b) { b.textContent = n || ''; b.classList.toggle('on', n > 0); }
+  if (l) l.textContent = 'Incoming' + (n ? ' (' + n + ')' : '');
+}
+
+async function decide(id, val) {
+  if (data[id]) data[id].status = val;
+  updateBadge();
+  render();
+  await dbPatch('/requests/' + id, {status: val});
+}
+
+function go(t) {
+  tab = t;
+  document.querySelectorAll('.nb').forEach(function(b){ b.classList.remove('on'); });
+  document.getElementById('nb-' + t).classList.add('on');
+  render();
+}
+
+function render() {
+  if (tab === 'incoming') renderIncoming();
+  else renderHistory();
+}
+
+function renderIncoming() {
+  var all = Object.entries(data).map(function(kv){ return Object.assign({id:kv[0]}, kv[1]); });
+  all.sort(function(a,b){ return b.ts - a.ts; });
+  var pend = all.filter(function(r){ return r.status === 'pending'; });
+  var done = all.filter(function(r){ return r.status !== 'pending'; });
+  var h = '<div class="conn-pill"><div class="conn-dot"></div>Connected · Flat ' + esc(myFlat) + '</div>';
+  if (!all.length) {
+    h += '<div class="empty"><div>🔔</div><div>No visitors yet</div><p>Visitor requests will appear here</p></div>';
+  } else {
+    pend.forEach(function(r){ h += vcCard(r, false); });
+    if (done.length) {
+      h += '<div class="sec-lbl">Earlier</div>';
+      done.forEach(function(r){ h += vcCard(r, true); });
+    }
+  }
+  document.getElementById('page').innerHTML = h;
+}
+
+function vcCard(r, decided) {
+  var t = new Date(r.ts).toLocaleString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true,day:'2-digit',month:'short'});
+  var img = r.photo ? '<img class="vc-photo" src="' + r.photo + '">' : '<div class="vc-nophoto">👤</div>';
+  var btns = decided
+    ? '<div class="decided-bar ' + (r.status==='approved' ? 'bar-yes' : 'bar-no') + '">'
+      + (r.status==='approved' ? '✅ You let them in' : '❌ You denied entry') + '</div>'
+    : '<div class="vc-btns">'
+      + '<button class="btn-yes" onclick="decide(\'' + r.id + '\',\'approved\')">✅ Let In</button>'
+      + '<button class="btn-no" onclick="decide(\'' + r.id + '\',\'denied\')">❌ Deny</button>'
+      + '</div>';
+  return '<div class="vc">' + img
+    + '<div class="vc-body">'
+    + '<div class="vc-name">' + esc(r.name) + '</div>'
+    + '<div class="vc-time">' + t + '</div>'
+    + '<div class="vc-chips">'
+    + '<span class="chip">📞 ' + esc(r.phone) + '</span>'
+    + (r.aadhar ? '<span class="chip">🪪 ' + esc(r.aadhar) + '</span>' : '')
+    + '<span class="chip p">' + esc(r.purpose) + '</span>'
+    + '</div>' + btns + '</div></div>';
+}
+
+function renderHistory() {
+  var all = Object.entries(data).map(function(kv){ return Object.assign({id:kv[0]}, kv[1]); });
+  all.sort(function(a,b){ return b.ts - a.ts; });
+  if (!all.length) {
+    document.getElementById('page').innerHTML = '<div class="empty"><div>📋</div><div>No history yet</div></div>';
+    return;
+  }
+  var h = '';
+  all.forEach(function(r) {
+    var t = new Date(r.ts).toLocaleString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true,day:'2-digit',month:'short'});
+    var bc = r.status==='approved' ? 'b-yes' : r.status==='denied' ? 'b-no' : 'b-wait';
+    var bl = r.status==='approved' ? '✅ Let in' : r.status==='denied' ? '❌ Denied' : '⏳ Pending';
+    h += '<div class="hc">'
+      + '<div class="hc-av">' + (r.photo ? '<img src="' + r.photo + '">' : '👤') + '</div>'
+      + '<div style="flex:1;min-width:0"><div class="hc-name">' + esc(r.name) + '</div>'
+      + '<div class="hc-meta">' + esc(r.purpose) + ' · ' + t + '</div></div>'
+      + '<div class="hc-badge ' + bc + '">' + bl + '</div></div>';
+  });
+  document.getElementById('page').innerHTML = h;
+}
+
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
